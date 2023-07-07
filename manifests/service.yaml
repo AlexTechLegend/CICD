@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: TestCICD
+  namespace: namespace-workflow-1688748719257
+spec:
+  type: LoadBalancer
+  selector:
+    app: TestCICD
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
