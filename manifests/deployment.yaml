@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: TestCICD
+  labels:
+    app: TestCICD
+  namespace: namespace-workflow-1688748719257
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: TestCICD
+  template:
+    metadata:
+      labels:
+        app: TestCICD
+    spec:
+      containers:
+        - name: TestCICD
+          image: acrworkflow1688748719257.azurecr.io/image-workflow-1688748719257:latest
+          ports:
+            - containerPort: 80
