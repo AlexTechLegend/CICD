@@ -1,0 +1,90 @@
+#First run the following on your linux box to ensure everything is up to date
+
+#you can put these commands into a #!/bin/bash and run the script or run them one by one
+
+# Quick update
+sudo apt update
+
+# Install Docker
+sudo apt install docker.io -y
+
+# Start Docker
+sudo systemctl start docker
+
+# Set docker to launch on boot
+sudo systemctl enable docker
+
+# Quick update
+sudo apt update
+
+###############################################################
+
+#Then run the following commands in order to get neccessary files and images
+
+#Install nginx
+sudo apt-get install nginx
+
+#Pull nginx docker image (so that you can make edits)
+sudo docker pull nginx
+
+###############################################################
+
+#You will now need to create a file in the location /usr/share/nginx/html/
+
+sudo nano /usr/share/nginx/html/dockerfile
+
+#Now copy and paste this into it
+
+# Use the Nginx base image
+FROM nginx
+
+# Copy your index.html file to the appropriate location in the container
+COPY index.html /usr/share/nginx/html/
+
+# Expose port 80 (default HTTP port)
+EXPOSE 80
+
+###############################################################
+
+#Once all of those steps are completed you can now make your CICD.sh file in order to make easy and quick image edits
+
+# Create the CICD.sh file
+
+sudo nano CICD.sh
+
+# Now copy and paste the following
+
+#!/bin/bash
+
+#store current dir
+currentdir=$(pwd)
+
+echo "Image has been built."
+
+sleep 1s
+
+echo "Actions Completed. Now building Dockerpush file."
+
+sudo docker build -t dockerfile .
+
+sudo docker tag dockerfile rattyreg.azurecr.io/dockerfile
+
+sudo docker push rattyreg.azurecr.io/dockerfile
+
+#back to main dir
+cd "$currentdir"
+
+###############################################################
+
+# Now you are ready to log into the Container Reg on azure using the quick start and Access Keys and run the CICD.sh file.
+
+# Afterwards you can make edits to the index.html file using the following:
+
+sudo nano /usr/share/nginx/html/index.html
+
+# OR
+
+sudo nano edit
+# Add stuff to edit file then
+sudo cp edit /usr/share/nginx/html/index.html
+# Then run CICD.sh to create and push the new image.
