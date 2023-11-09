@@ -1,0 +1,28 @@
+resources:
+  - type: Microsoft.Resources/resourceGroups
+    apiVersion: 2020-06-01
+    name: PNNL-Test
+    location: westus
+
+  - type: Microsoft.Compute/virtualMachines
+    apiVersion: 2022-03-01
+    name: PipelineTest
+    location: westus
+    dependsOn:
+      - Microsoft.Resources/resourceGroups/PNNL-Test
+    properties:
+      hardwareProfile:
+        vmSize: Standard_B1ls
+      storageProfile:
+        imageReference:
+          publisher: Canonical
+          offer: UbuntuServer
+          sku: 18.04-LTS
+          version: latest
+      osProfile:
+        computerName: PipelineTest
+        adminUsername: adminalex
+        adminPassword: '!QAZ@WSX1qaz2wsx'
+      networkProfile:
+        networkInterfaces:
+          - id: <network-interface-resource-id> # Replace with the actual network interface resource ID
