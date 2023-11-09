@@ -1,0 +1,2 @@
+git remote add origin git@ssh.dev.azure.com:v3/AlexTechLegend/PNNL/PNNL
+git push -u origin --all
